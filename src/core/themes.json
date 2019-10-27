@@ -1,0 +1,12 @@
+[
+  {
+    "key": "DARK",
+    "backgroundColor": "#011627",
+    "color": "#ffffff"
+  },
+  {
+    "key": "LIGHT",
+    "backgroundColor": "#ffffff",
+    "color": "#000"
+  }
+]
