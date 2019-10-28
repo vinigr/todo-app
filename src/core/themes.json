@@ -1,8 +1,9 @@
 [
   {
     "key": "DARK",
-    "backgroundColor": "#011627",
-    "color": "#ffffff"
+    "backgroundColor": "#121212",
+    "color": "#ffffff",
+    "inativeColor": "#202020"
   },
   {
     "key": "LIGHT",
