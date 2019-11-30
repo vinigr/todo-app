@@ -1,19 +1,18 @@
 import React from 'react';
 import {BottomTabBar} from 'react-navigation-tabs';
 
-import {withTheme} from '../../core/ThemeProvider';
-
 const TabBar = props => {
+  const {screenProps} = props;
+
   return (
     <BottomTabBar
       {...props}
-      activeTintColor={props.theme.color}
-      inactiveBackgroundColor={props.theme.inativeColor}
-      activeBackgroundColor={props.theme.backgroundColor}
+      inactiveBackgroundColor={screenProps.theme.INACTIVE_COLOR}
+      activeBackgroundColor={screenProps.theme.ACTIVE_COLOR}
       showLabel={false}
       getLabelText={({route}) => route.key.toUpperCase()}
     />
   );
 };
 
-export default withTheme(TabBar);
+export default TabBar;
