@@ -4,7 +4,6 @@ export class SubActivitiesModel {
   props = {
     title: 'string',
     subtitle: '?string',
-    screduledAt: 'datetime',
     completed: 'boolean',
     assignedTo: '#User',
   };
