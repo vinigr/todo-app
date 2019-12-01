@@ -6,6 +6,7 @@ import {fadeIn} from 'react-navigation-transitions';
 
 import Home from './screens/Home/Home';
 import NewActivity from './screens/NewActivity/NewActivity';
+import Activity from './screens/Activity/Activity';
 
 import Settings from './screens/Settings/Settings';
 import TabBar from './components/TabBar/TabBar';
@@ -24,6 +25,12 @@ const StackHome = createStackNavigator(
     },
     NewActivity: {
       screen: NewActivity,
+      navigationOptions: {
+        header: null,
+      },
+    },
+    Activity: {
+      screen: Activity,
       navigationOptions: {
         header: null,
       },
