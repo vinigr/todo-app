@@ -10,16 +10,26 @@ export const Titulo = styled.Text`
   color: ${props => props.theme.TEXT_COLOR};
   margin-bottom: 20px;
   font-size: 24px;
+  font-weight: bold;
 `;
 
-export const Text = styled.Text`
-  color: ${props => props.theme.TEXT_COLOR};
+export const TextTheme = styled.Text`
+  color: ${props => props.color};
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+export const OptionsTheme = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 export const ButtonTheme = styled.TouchableOpacity`
-  color: ${props => props.theme.TEXT_COLOR};
+  background-color: ${props => props.color};
   flex-direction: row;
   align-items: center;
-  padding: 0 10px;
-  margin-bottom: 10px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: 1px ${props => props.theme.TEXT_COLOR};
+  width: 46%;
 `;

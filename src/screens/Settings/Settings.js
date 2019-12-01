@@ -1,8 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import {Container, Titulo, Text, ButtonTheme} from './styles';
+import {
+  Container,
+  Titulo,
+  TextTheme,
+  ButtonTheme,
+  OptionsTheme,
+} from './styles';
 
 import {useTheme} from '../../core/ThemeProvider';
 
@@ -14,42 +20,31 @@ const Settings = ({screenProps}) => {
   return (
     <Container>
       <Titulo>Tema</Titulo>
-      <ButtonTheme onPress={() => handleTheme('dark')}>
-        <Icon
-          color={screenProps.theme.TEXT_COLOR}
-          style={style.icon}
-          size={30}
-          name="weather-night"
-        />
-        <Text>Dark</Text>
-      </ButtonTheme>
-      <ButtonTheme onPress={() => handleTheme('light')}>
-        <Icon
-          color={screenProps.theme.TEXT_COLOR}
-          style={style.icon}
-          size={30}
-          name="white-balance-sunny"
-        />
-        <Text>Light</Text>
-      </ButtonTheme>
+      <OptionsTheme>
+        <ButtonTheme color="#121212" onPress={() => handleTheme('dark')}>
+          <Icon
+            color="#D8DEE9"
+            style={style.icon}
+            size={30}
+            name="weather-night"
+          />
+          <TextTheme color="#D8DEE9">Dark</TextTheme>
+        </ButtonTheme>
+        <ButtonTheme color="#fff" onPress={() => handleTheme('light')}>
+          <Icon
+            color="#000"
+            style={style.icon}
+            size={30}
+            name="white-balance-sunny"
+          />
+          <TextTheme color="#000">Light</TextTheme>
+        </ButtonTheme>
+      </OptionsTheme>
     </Container>
   );
 };
 
 const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
-  text: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  themeSelect: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 10,
-  },
   icon: {
     marginRight: 5,
   },
