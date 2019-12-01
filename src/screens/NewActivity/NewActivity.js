@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
+import {Keyboard} from 'react-native';
+
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -21,6 +23,9 @@ import {
 import {Activities, SubActivities} from '../../database';
 
 const NewActivity = props => {
+  const inputTitle = useRef(null);
+  const inputSubtitle = useRef(null);
+
   const [title, setTitle] = useState();
   const [subtitle, setSubtitle] = useState();
   const [date, setDate] = useState(new Date());
@@ -28,6 +33,10 @@ const NewActivity = props => {
   const [subActivities, setSubActivities] = useState([]);
   const [dateVisible, setDateVisible] = useState(false);
   const {screenProps} = props;
+
+  useEffect(() => {
+    inputTitle.current.focus();
+  }, []);
 
   const hideDatePicker = () => {
     setDateVisible(false);
@@ -83,29 +92,33 @@ const NewActivity = props => {
     if (activity) {
       subActivities.map(item => {
         if (item && item.title !== '') {
-          const subActivity = SubActivities.insert({
+          SubActivities.insert({
             title: item.title,
             subtitle: item.subtitle,
             completed: false,
             assignedTo: activity.id,
           })[0];
-
-          console.log(subActivity);
         }
       });
     }
+
+    Keyboard.dismiss();
   };
 
   return (
     <Container keyboardShouldPersistTaps="handled">
       <Titulo>Nova atividade</Titulo>
       <Input
+        ref={inputTitle}
         value={title}
         onChangeText={text => setTitle(text)}
         placeholder="Título"
         placeholderTextColor={screenProps.theme.INPUT_PLACEHOLDER}
+        returnKeyType="next"
+        onSubmitEditing={() => inputSubtitle.current.focus()}
       />
       <Input
+        ref={inputSubtitle}
         value={subtitle}
         onChangeText={text => setSubtitle(text)}
         placeholder="Subtítulo"
