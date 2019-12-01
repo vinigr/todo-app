@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import {StatusBar, TouchableOpacity} from 'react-native';
+import React, {useState, useEffect, useRef} from 'react';
+import {StatusBar, TouchableOpacity, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import AlertPro from 'react-native-alert-pro';
 
 import GestureRecognizer from 'react-native-swipe-gestures';
 
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
-
-import Modal from '../../components/ModalActivity/ModalActivity';
 
 import {
   Container,
@@ -17,10 +16,11 @@ import {
   ButtonAdd,
   Dia,
   DataText,
-  Tasks,
   TaskText,
   Task,
   ButtonTask,
+  ContentTask,
+  TaskHour,
 } from './styles';
 
 import pt from 'date-fns/locale/pt';
@@ -29,14 +29,23 @@ import format from 'date-fns/format';
 import {Activities} from '../../database';
 
 const Home = props => {
+  let alert = useRef(null);
+
   const [activities, setActivities] = useState([]);
   const [date, setDate] = useState(new Date());
-
-  const [activityActiveIndex, setActivityActiveIndex] = useState();
+  const [activitySelected, setActivitySelected] = useState();
+  const [loading, setLoading] = useState(true);
 
   const [dateVisible, setDateVisible] = useState(false);
 
   useEffect(() => {
+    fetchData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date]);
+
+  const fetchData = () => {
+    setLoading(true);
     Activities.onLoaded(() => {
       const activitiesData = Activities.data();
 
@@ -46,8 +55,10 @@ const Home = props => {
             format(activity.screduledAt, 'd/M/y') === format(date, 'd/M/y'),
         ),
       );
+
+      setLoading(false);
     });
-  }, [date]);
+  };
 
   const hideDatePicker = () => {
     setDateVisible(false);
@@ -78,9 +89,22 @@ const Home = props => {
     setDate(newDate);
   }
 
-  function closeModal() {
-    setActivityActiveIndex(null);
-  }
+  const deleteSubActivity = () => {
+    Activities.remove(activitySelected);
+
+    const activitiesSave = [...activities];
+
+    alert.close();
+
+    setActivities(
+      activitiesSave.filter(subactivity => subactivity.id !== activitySelected),
+    );
+  };
+
+  const openAlert = id => {
+    alert.open();
+    setActivitySelected(id);
+  };
 
   const {screenProps} = props;
 
@@ -115,15 +139,18 @@ const Home = props => {
             </ButtonAdd>
           </Header>
 
-          <Tasks>
-            {activities.map((activity, index) => (
-              <Task key={activity.id}>
-                {activity.completed ? (
+          <FlatList
+            data={activities}
+            keyExtractor={item => item.id}
+            onRefresh={fetchData}
+            refreshing={loading}
+            renderItem={({item, index}) => (
+              <Task>
+                {item.completed ? (
                   <>
                     <TouchableOpacity
-                      // onLongPress={() => handleCheckActivity(id, false)}
                       onPress={() =>
-                        handleCheckActivity(activity.id, index, false)
+                        handleCheckActivity(item.id, index, false)
                       }>
                       <Icon
                         name="check-circle-outline"
@@ -135,9 +162,7 @@ const Home = props => {
                 ) : (
                   <>
                     <TouchableOpacity
-                      onPress={() =>
-                        handleCheckActivity(activity.id, index, true)
-                      }>
+                      onPress={() => handleCheckActivity(item.id, index, true)}>
                       <Icon
                         name="checkbox-blank-circle-outline"
                         color={screenProps.theme.TEXT_COLOR}
@@ -146,30 +171,53 @@ const Home = props => {
                     </TouchableOpacity>
                   </>
                 )}
-                <ButtonTask onPress={() => setActivityActiveIndex(index)}>
-                  <TaskText>{activity.title}</TaskText>
-                </ButtonTask>
+                <ContentTask>
+                  <ButtonTask
+                    onPress={() =>
+                      props.navigation.navigate('Activity', {activity: item})
+                    }
+                    onLongPress={() => openAlert(item.id)}>
+                    <TaskText>{item.title}</TaskText>
+                  </ButtonTask>
+                  {item.hourActive && (
+                    <TaskHour>{format(item.screduledAt, 'HH:mm')}</TaskHour>
+                  )}
+                </ContentTask>
               </Task>
-            ))}
-          </Tasks>
-          <DateTimePickerModal
-            date={date}
-            value={date}
-            isVisible={dateVisible}
-            isDarkModeEnabled={true}
-            mode="date"
-            is24Hour={true}
-            onConfirm={handleConfirm}
-            onCancel={hideDatePicker}
+            )}
           />
         </>
       </GestureRecognizer>
-      {activityActiveIndex !== null && (
-        <Modal
-          activity={activities[activityActiveIndex]}
-          closeModal={closeModal}
-        />
-      )}
+      <DateTimePickerModal
+        date={date}
+        value={date}
+        isVisible={dateVisible}
+        isDarkModeEnabled={true}
+        mode="date"
+        is24Hour={true}
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        timePickerModeAndroid="spinner"
+      />
+      <AlertPro
+        ref={ref => {
+          alert = ref;
+        }}
+        title={'Apagar atividade?'}
+        textConfirm="Sim"
+        textCancel="Não"
+        useNativeDriver
+        onCancel={() => alert.close()}
+        onConfirm={deleteSubActivity}
+        customStyles={{
+          container: {
+            backgroundColor: screenProps.theme.SECONDARY,
+          },
+          title: {
+            color: screenProps.theme.TEXT_COLOR,
+          },
+        }}
+      />
     </Container>
   );
 };
