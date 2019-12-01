@@ -18,6 +18,8 @@ import {
   ButtonAddSub,
   SubAtividade,
   ButtonDelete,
+  ButtonHorarioBoolean,
+  TextCheck,
 } from './styles';
 
 import {Activities, SubActivities} from '../../database';
@@ -28,6 +30,7 @@ const NewActivity = props => {
 
   const [title, setTitle] = useState();
   const [subtitle, setSubtitle] = useState();
+  const [hourActive, setHourActive] = useState(true);
   const [date, setDate] = useState(new Date());
 
   const [subActivities, setSubActivities] = useState([]);
@@ -87,6 +90,7 @@ const NewActivity = props => {
       subtitle,
       screduledAt: new Date(date),
       completed: false,
+      hourActive,
     })[0];
 
     if (activity) {
@@ -101,6 +105,10 @@ const NewActivity = props => {
         }
       });
     }
+
+    inputTitle.current.clear();
+    inputSubtitle.current.clear();
+    setSubActivities([]);
 
     Keyboard.dismiss();
   };
@@ -124,15 +132,34 @@ const NewActivity = props => {
         placeholder="Subtítulo"
         placeholderTextColor={screenProps.theme.INPUT_PLACEHOLDER}
       />
+      <ButtonHorarioBoolean onPress={() => setHourActive(!hourActive)}>
+        {!hourActive ? (
+          <Icon
+            name="checkbox-blank-outline"
+            color={screenProps.theme.TEXT_COLOR}
+            size={30}
+          />
+        ) : (
+          <Icon
+            name="checkbox-marked"
+            color={screenProps.theme.TEXT_COLOR}
+            size={30}
+          />
+        )}
+
+        <TextCheck>Definir horário</TextCheck>
+      </ButtonHorarioBoolean>
       <ButtonDate onPress={() => setDateVisible(true)}>
-        <TextDate>{format(date, 'd/M/y  H:mm')}</TextDate>
+        <TextDate>
+          {hourActive ? format(date, 'dd/M/y  H:mm') : format(date, 'dd/M/y')}
+        </TextDate>
       </ButtonDate>
       <DateTimePickerModal
         date={date}
         value={date}
         isVisible={dateVisible}
         isDarkModeEnabled={true}
-        mode="datetime"
+        mode={hourActive ? 'datetime' : 'date'}
         is24Hour={true}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}

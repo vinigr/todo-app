@@ -35,6 +35,18 @@ export const TextDate = styled.Text`
   font-size: 16px;
 `;
 
+export const ButtonHorarioBoolean = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
+export const TextCheck = styled.Text`
+  color: ${props => props.theme.TEXT_COLOR};
+  font-size: 16px;
+  margin-left: 4px;
+`;
+
 export const ButtonAddSub = styled.TouchableOpacity`
   border-radius: 6px;
   padding: 10px 4px;
