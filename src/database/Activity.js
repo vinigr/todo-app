@@ -5,6 +5,7 @@ export class ActivitiesModel {
     title: 'string',
     subtitle: '?string',
     screduledAt: 'datetime',
+    hourActive: 'boolean',
     completed: 'boolean',
   };
 }

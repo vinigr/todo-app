@@ -5,5 +5,5 @@ import {SubActivitiesModel} from './SubActivity';
 
 export default new Vasern({
   schemas: [ActivitiesModel, SubActivitiesModel],
-  version: 2,
+  version: 3,
 });
