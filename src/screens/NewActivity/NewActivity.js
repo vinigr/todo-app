@@ -46,8 +46,8 @@ const NewActivity = props => {
   };
 
   const handleConfirm = value => {
-    setDate(value);
     hideDatePicker();
+    setDate(value);
   };
 
   const addSubActivity = () => {
@@ -55,7 +55,6 @@ const NewActivity = props => {
       ...subActivities,
       {
         title: '',
-        subtitle: '',
       },
     ]);
   };
@@ -76,14 +75,6 @@ const NewActivity = props => {
     setSubActivities(activitiesSave);
   };
 
-  const updateSubTitle = (text, index) => {
-    const activitiesSave = [...subActivities];
-    let newEditActivity = {...activitiesSave[index]};
-    newEditActivity.subtitle = text;
-    activitiesSave[index] = newEditActivity;
-    setSubActivities(activitiesSave);
-  };
-
   const saveActivity = () => {
     const activity = Activities.insert({
       title,
@@ -98,7 +89,6 @@ const NewActivity = props => {
         if (item && item.title !== '') {
           SubActivities.insert({
             title: item.title,
-            subtitle: item.subtitle,
             completed: false,
             assignedTo: activity.id,
           })[0];
@@ -173,13 +163,7 @@ const NewActivity = props => {
             value={activity.title}
             onChangeText={text => updateTitle(text, index)}
             placeholder="Título"
-            placeholderTextColor={screenProps.theme.TEXT_COLOR}
-          />
-          <Input
-            value={activity.subTitle}
-            onChangeText={text => updateSubTitle(text, index)}
-            placeholder="Subtítulo"
-            placeholderTextColor={screenProps.theme.TEXT_COLOR}
+            placeholderTextColor={screenProps.theme.INPUT_PLACEHOLDER}
           />
         </SubAtividade>
       ))}
