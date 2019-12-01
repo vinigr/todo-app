@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {TouchableOpacity, TouchableWithoutFeedback} from 'react-native';
 import AlertPro from 'react-native-alert-pro';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import format from 'date-fns/format';
@@ -31,23 +32,22 @@ import {Activities, SubActivities} from '../../database';
 const Activity = props => {
   let alert = useRef(null);
 
+  const {navigation, screenProps} = props;
+
+  const activity = navigation.getParam('activity');
+
   const [subActivities, setSubactivities] = useState([]);
   const [subactivitySelected, setSubactivitySelected] = useState();
 
   const [subactivityNew, setSubactivityNew] = useState(false);
 
   const [editTitle, setEditTitle] = useState(false);
+  const [dateVisible, setDateVisible] = useState(false);
 
   const [textTitle, setTextTitle] = useState();
+  const [date, setDate] = useState(activity.screduledAt);
 
   const [title, setTitle] = useState();
-  const [subtitle, setSubtitle] = useState();
-
-  const {navigation, screenProps} = props;
-
-  const activity = navigation.getParam('activity');
-
-  console.log(activity);
 
   useEffect(() => {
     if (activity) {
@@ -74,6 +74,10 @@ const Activity = props => {
     } else {
       lastTap = now;
     }
+  };
+
+  const hideDatePicker = () => {
+    setDateVisible(false);
   };
 
   const handleCheckActivity = (id, index, value) => {
@@ -103,7 +107,6 @@ const Activity = props => {
   const saveSubActivity = () => {
     const newActivity = SubActivities.insert({
       title: title,
-      subtitle: subtitle,
       completed: false,
       assignedTo: activity.id,
     })[0];
@@ -111,6 +114,8 @@ const Activity = props => {
     setSubactivities([...subActivities, newActivity]);
 
     setSubactivityNew(false);
+
+    setTitle(null);
   };
 
   const updateTitleActivity = () => {
@@ -119,6 +124,16 @@ const Activity = props => {
     activity.title = activityEdit.title;
 
     setEditTitle(false);
+  };
+
+  const updateDateActivity = value => {
+    hideDatePicker();
+
+    Activities.update(activity.id, {
+      screduledAt: value,
+    });
+
+    setDate(value);
   };
 
   const openAlert = id => {
@@ -152,11 +167,14 @@ const Activity = props => {
 
       {activity.subtitle && <SubTitle>{activity.subtitle}</SubTitle>}
 
-      <TextDate>
-        {activity.hourActive
-          ? format(activity.screduledAt, 'dd/M/y  H:mm')
-          : format(activity.screduledAt, 'dd/M/y')}
-      </TextDate>
+      <TouchableOpacity onLongPress={() => setDateVisible(true)}>
+        <TextDate>
+          {activity.hourActive
+            ? format(date, 'dd/M/y  H:mm')
+            : format(date, 'dd/M/y')}
+        </TextDate>
+      </TouchableOpacity>
+
       <Tasks>
         {subActivities.map((subactivity, index) => (
           <Task key={subactivity.id}>
@@ -183,9 +201,9 @@ const Activity = props => {
                 </TouchableOpacity>
               </>
             )}
-            <TaskText onLongPress={() => openAlert(subactivity.id)}>
-              {subactivity.title}
-            </TaskText>
+            <TouchableOpacity onLongPress={() => openAlert(subactivity.id)}>
+              <TaskText>{subactivity.title}</TaskText>
+            </TouchableOpacity>
           </Task>
         ))}
       </Tasks>
@@ -198,12 +216,6 @@ const Activity = props => {
             value={title}
             onChangeText={text => setTitle(text)}
             placeholder="Título"
-            placeholderTextColor={screenProps.theme.TEXT_COLOR}
-          />
-          <Input
-            value={subtitle}
-            onChangeText={text => setSubtitle(text)}
-            placeholder="Subtítulo"
             placeholderTextColor={screenProps.theme.TEXT_COLOR}
           />
           <ButtonSalvar onPress={saveSubActivity}>
@@ -232,6 +244,16 @@ const Activity = props => {
             color: screenProps.theme.TEXT_COLOR,
           },
         }}
+      />
+      <DateTimePickerModal
+        date={date}
+        value={date}
+        isVisible={dateVisible}
+        isDarkModeEnabled={true}
+        mode={activity.hourActive ? 'datetime' : 'date'}
+        is24Hour={true}
+        onConfirm={updateDateActivity}
+        onCancel={hideDatePicker}
       />
     </Container>
   );
