@@ -8,17 +8,19 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+  padding-left: 6px;
 `;
 
 export const ButtonAdd = styled.TouchableOpacity`
-  height: 40px;
-  width: 40px;
+  height: 50px;
+  width: 50px;
   align-items: center;
   justify-content: center;
   background-color: ${props => props.theme.TEXT_COLOR};
-  border-radius: 20px;
+  border-radius: 25px;
 `;
 
 export const Data = styled.TouchableOpacity`
@@ -49,7 +51,9 @@ export const Task = styled.View`
 `;
 
 export const TaskText = styled.Text`
-  font-size: 26px;
+  font-size: 22px;
   margin-left: 10px;
   color: ${props => props.theme.TEXT_COLOR};
 `;
+
+export const ButtonTask = styled.TouchableOpacity``;
