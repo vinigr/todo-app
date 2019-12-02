@@ -48,26 +48,27 @@ export const Task = styled.View`
   padding: 10px 4px;
   flex-direction: row;
   align-items: center;
-  text-align: left;
   width: 100%;
+`;
+
+export const ContentTask = styled.View`
+  flex-direction: row;
+  width: 92%;
+  justify-content: space-between;
+`;
+
+export const ButtonTask = styled.TouchableOpacity`
+  width: 80%;
 `;
 
 export const TaskText = styled.Text`
   font-size: 22px;
   margin-left: 10px;
+  text-align: left;
   color: ${props => props.theme.TEXT_COLOR};
 `;
 
 export const TaskHour = styled.Text`
   font-size: 22px;
-  text-align: right;
   color: ${props => props.theme.TEXT_COLOR};
 `;
-
-export const ContentTask = styled.View`
-  flex-direction: row;
-  width: 90%;
-  justify-content: space-between;
-`;
-
-export const ButtonTask = styled.TouchableOpacity``;
