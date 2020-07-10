@@ -27,8 +27,9 @@ import pt from 'date-fns/locale/pt';
 import format from 'date-fns/format';
 
 import {Activities} from '../../database';
+import {useTheme} from '@react-navigation/native';
 
-const Home = props => {
+const Home = (props) => {
   let alert = useRef(null);
 
   const [activities, setActivities] = useState([]);
@@ -37,6 +38,8 @@ const Home = props => {
   const [loading, setLoading] = useState(true);
 
   const [dateVisible, setDateVisible] = useState(false);
+
+  const {colors, dark} = useTheme();
 
   useEffect(() => {
     fetchData();
@@ -51,7 +54,7 @@ const Home = props => {
 
       setActivities(
         activitiesData.filter(
-          activity =>
+          (activity) =>
             format(activity.screduledAt, 'd/M/y') === format(date, 'd/M/y'),
         ),
       );
@@ -64,7 +67,7 @@ const Home = props => {
     setDateVisible(false);
   };
 
-  const handleConfirm = value => {
+  const handleConfirm = (value) => {
     hideDatePicker();
     setDate(value);
   };
@@ -97,26 +100,23 @@ const Home = props => {
     alert.close();
 
     setActivities(
-      activitiesSave.filter(subactivity => subactivity.id !== activitySelected),
+      activitiesSave.filter(
+        (subactivity) => subactivity.id !== activitySelected,
+      ),
     );
   };
 
-  const openAlert = id => {
+  const openAlert = (id) => {
     alert.open();
     setActivitySelected(id);
   };
 
   const {screenProps} = props;
 
-  const colorStatus =
-    screenProps.theme.mode === 'LIGHT' ? 'dark-content' : 'light-content';
+  const colorStatus = dark ? 'dark-content' : 'light-content';
 
   return (
     <Container>
-      <StatusBar
-        backgroundColor={screenProps.theme.PRIMARY_COLOR}
-        barStyle={colorStatus}
-      />
       <GestureRecognizer
         onSwipeLeft={onSwipeLeft}
         onSwipeRight={onSwipeRight}
@@ -131,17 +131,13 @@ const Home = props => {
               <DataText>{format(date, ', d LLL', {locale: pt})}</DataText>
             </Data>
             <ButtonAdd onPress={() => props.navigation.navigate('NewActivity')}>
-              <Icon
-                name="plus"
-                color={screenProps.theme.PRIMARY_COLOR}
-                size={30}
-              />
+              <Icon name="plus" color={colors.background} size={30} />
             </ButtonAdd>
           </Header>
 
           <FlatList
             data={activities}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
             onRefresh={fetchData}
             refreshing={loading}
             renderItem={({item, index}) => (
@@ -200,7 +196,7 @@ const Home = props => {
         timePickerModeAndroid="spinner"
       />
       <AlertPro
-        ref={ref => {
+        ref={(ref) => {
           alert = ref;
         }}
         title={'Apagar atividade?'}
@@ -211,10 +207,10 @@ const Home = props => {
         onConfirm={deleteSubActivity}
         customStyles={{
           container: {
-            backgroundColor: screenProps.theme.SECONDARY,
+            backgroundColor: colors.SECONDARY,
           },
           title: {
-            color: screenProps.theme.TEXT_COLOR,
+            color: colors.TEXT_COLOR,
           },
         }}
       />

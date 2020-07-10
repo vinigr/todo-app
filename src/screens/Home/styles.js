@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   padding: 10px;
-  background-color: ${props => props.theme.PRIMARY_COLOR};
+  background-color: ${(props) => props.theme.background};
 `;
 
 export const Header = styled.View`
@@ -19,7 +19,7 @@ export const ButtonAdd = styled.TouchableOpacity`
   width: 50px;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.TEXT_COLOR};
+  background-color: ${(props) => props.theme.TEXT_COLOR};
   border-radius: 25px;
 `;
 
@@ -31,12 +31,12 @@ export const Data = styled.TouchableOpacity`
 export const Dia = styled.Text`
   font-size: 28px;
   font-weight: bold;
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
 `;
 
 export const DataText = styled.Text`
   font-size: 26px;
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
 `;
 
 export const Tasks = styled.ScrollView`
@@ -65,10 +65,10 @@ export const TaskText = styled.Text`
   font-size: 22px;
   margin-left: 10px;
   text-align: left;
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
 `;
 
 export const TaskHour = styled.Text`
   font-size: 22px;
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
 `;

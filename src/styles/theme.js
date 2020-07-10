@@ -1,6 +1,6 @@
 export const dark = {
   mode: 'DARK',
-  PRIMARY_COLOR: '#121212',
+  background: '#121212',
   SECONDARY: '#2C2C2C',
   TEXT_COLOR: '#D8DEE9',
   ACTIVE_COLOR: '#121212',
@@ -12,7 +12,7 @@ export const dark = {
 
 export const light = {
   mode: 'LIGHT',
-  PRIMARY_COLOR: '#fff',
+  background: '#fff',
   SECONDARY: '#F7F7F7',
   TEXT_COLOR: '#000',
   ACTIVE_COLOR: '#E7E7E7',

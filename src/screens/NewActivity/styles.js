@@ -3,27 +3,27 @@ import styled from 'styled-components/native';
 export const Container = styled.ScrollView`
   flex: 1;
   padding: 10px;
-  background-color: ${props => props.theme.PRIMARY_COLOR};
+  background-color: ${(props) => props.theme.background};
 `;
 
 export const Titulo = styled.Text`
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
   font-size: 30px;
   margin-bottom: 10px;
   font-weight: bold;
 `;
 
 export const Input = styled.TextInput`
-  background-color: ${props => props.theme.INPUT};
+  background-color: ${(props) => props.theme.INPUT};
   border-radius: 6px;
   padding: 10px 8px;
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
   font-size: 16px;
   margin-bottom: 10px;
 `;
 
 export const ButtonDate = styled.TouchableOpacity`
-  background-color: ${props => props.theme.INPUT};
+  background-color: ${(props) => props.theme.INPUT};
   border-radius: 6px;
   padding: 14px 8px;
   font-size: 16px;
@@ -31,7 +31,7 @@ export const ButtonDate = styled.TouchableOpacity`
 `;
 
 export const TextDate = styled.Text`
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
   font-size: 16px;
 `;
 
@@ -42,7 +42,7 @@ export const ButtonHorarioBoolean = styled.TouchableOpacity`
 `;
 
 export const TextCheck = styled.Text`
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
   font-size: 16px;
   margin-left: 4px;
 `;
@@ -56,13 +56,13 @@ export const ButtonAddSub = styled.TouchableOpacity`
 `;
 
 export const TextAddSub = styled.Text`
-  color: ${props => props.theme.TEXT_COLOR};
+  color: ${(props) => props.theme.TEXT_COLOR};
   font-size: 16px;
 `;
 
 export const SubAtividade = styled.View`
   padding: 10px;
-  background-color: ${props => props.theme.SECONDARY};
+  background-color: ${(props) => props.theme.SECONDARY};
   border-radius: 6px;
 `;
 
@@ -75,7 +75,7 @@ export const ButtonDelete = styled.TouchableOpacity`
 `;
 
 export const ButtonSalvar = styled.TouchableOpacity`
-  background-color: ${props => props.theme.SAVE};
+  background-color: ${(props) => props.theme.SAVE};
   border-radius: 6px;
   padding: 14px 8px;
   font-size: 16px;
@@ -86,7 +86,7 @@ export const ButtonSalvar = styled.TouchableOpacity`
 `;
 
 export const TextSalvar = styled.Text`
-  color: ${props => props.theme.PRIMARY_COLOR};
+  color: ${(props) => props.theme.background};
   font-size: 20px;
   font-weight: bold;
 `;

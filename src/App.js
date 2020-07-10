@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 
 import {ThemeContextProvider} from './core/ThemeProvider';
-import Navigator from './Navigator';
+import Navigator from './routes/Navigator';
 
 export default function App() {
   return (

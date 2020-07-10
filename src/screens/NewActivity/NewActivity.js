@@ -23,8 +23,9 @@ import {
 } from './styles';
 
 import {Activities, SubActivities} from '../../database';
+import {useTheme} from '@react-navigation/native';
 
-const NewActivity = props => {
+const NewActivity = (props) => {
   const inputTitle = useRef(null);
   const inputSubtitle = useRef(null);
 
@@ -35,7 +36,8 @@ const NewActivity = props => {
 
   const [subActivities, setSubActivities] = useState([]);
   const [dateVisible, setDateVisible] = useState(false);
-  const {screenProps} = props;
+
+  const {colors} = useTheme();
 
   useEffect(() => {
     inputTitle.current.focus();
@@ -45,7 +47,7 @@ const NewActivity = props => {
     setDateVisible(false);
   };
 
-  const handleConfirm = value => {
+  const handleConfirm = (value) => {
     hideDatePicker();
     setDate(value);
   };
@@ -59,7 +61,7 @@ const NewActivity = props => {
     ]);
   };
 
-  const deleteSubActivity = index => {
+  const deleteSubActivity = (index) => {
     const activitiesSave = [...subActivities];
 
     activitiesSave.splice(index, 1);
@@ -85,7 +87,7 @@ const NewActivity = props => {
     })[0];
 
     if (activity) {
-      subActivities.map(item => {
+      subActivities.map((item) => {
         if (item && item.title !== '') {
           SubActivities.insert({
             title: item.title,
@@ -109,32 +111,28 @@ const NewActivity = props => {
       <Input
         ref={inputTitle}
         value={title}
-        onChangeText={text => setTitle(text)}
+        onChangeText={(text) => setTitle(text)}
         placeholder="Título"
-        placeholderTextColor={screenProps.theme.INPUT_PLACEHOLDER}
+        placeholderTextColor={colors.INPUT_PLACEHOLDER}
         returnKeyType="next"
         onSubmitEditing={() => inputSubtitle.current.focus()}
       />
       <Input
         ref={inputSubtitle}
         value={subtitle}
-        onChangeText={text => setSubtitle(text)}
+        onChangeText={(text) => setSubtitle(text)}
         placeholder="Subtítulo"
-        placeholderTextColor={screenProps.theme.INPUT_PLACEHOLDER}
+        placeholderTextColor={colors.INPUT_PLACEHOLDER}
       />
       <ButtonHorarioBoolean onPress={() => setHourActive(!hourActive)}>
         {!hourActive ? (
           <Icon
             name="checkbox-blank-outline"
-            color={screenProps.theme.TEXT_COLOR}
+            color={colors.TEXT_COLOR}
             size={30}
           />
         ) : (
-          <Icon
-            name="checkbox-marked"
-            color={screenProps.theme.TEXT_COLOR}
-            size={30}
-          />
+          <Icon name="checkbox-marked" color={colors.TEXT_COLOR} size={30} />
         )}
 
         <TextCheck>Definir horário</TextCheck>
@@ -157,13 +155,13 @@ const NewActivity = props => {
       {subActivities.map((activity, index) => (
         <SubAtividade key={index}>
           <ButtonDelete onPress={() => deleteSubActivity(index)}>
-            <Icon name="close" color={screenProps.theme.TEXT_COLOR} size={30} />
+            <Icon name="close" color={colors.TEXT_COLOR} size={30} />
           </ButtonDelete>
           <Input
             value={activity.title}
-            onChangeText={text => updateTitle(text, index)}
+            onChangeText={(text) => updateTitle(text, index)}
             placeholder="Título"
-            placeholderTextColor={screenProps.theme.INPUT_PLACEHOLDER}
+            placeholderTextColor={colors.INPUT_PLACEHOLDER}
           />
         </SubAtividade>
       ))}

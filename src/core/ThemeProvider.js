@@ -1,4 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
+import {StatusBar} from 'react-native';
+
 import AsyncStorage from '@react-native-community/async-storage';
 import {ThemeProvider} from 'styled-components';
 
@@ -26,11 +28,18 @@ export const ThemeContextProvider = ({children}) => {
     })();
   }, []);
 
-  const handleTheme = color => {
+  const handleTheme = (color) => {
     if (color === 'light') {
+      console.log('teste');
+      StatusBar.setBarStyle('dark-content');
+      StatusBar.setBackgroundColor(light.background);
       AsyncStorage.setItem(STORAGE_KEY, 'light');
+
       setTheme('light');
     } else {
+      StatusBar.setBarStyle('light-content');
+      StatusBar.setBackgroundColor(dark.background);
+
       AsyncStorage.setItem(STORAGE_KEY, 'dark');
       setTheme('dark');
     }
@@ -44,24 +53,3 @@ export const ThemeContextProvider = ({children}) => {
     </ThemeContext.Provider>
   );
 };
-
-export function withTheme(Component) {
-  return props => {
-    const {theme, setTheme} = useContext(ThemeContext);
-
-    const getTheme = theme;
-    const handleTheme = () => {
-      if (theme === 'light') {
-        AsyncStorage.setItem(STORAGE_KEY, 'dark');
-        setTheme('dark');
-      } else {
-        AsyncStorage.setItem(STORAGE_KEY, 'light');
-        setTheme('light');
-      }
-    };
-
-    return (
-      <Component {...props} theme={getTheme(theme)} setTheme={handleTheme} />
-    );
-  };
-}
