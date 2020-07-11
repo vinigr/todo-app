@@ -10,38 +10,38 @@ const STORAGE_KEY = 'THEME_ID';
 
 export const ThemeContext = React.createContext();
 
-export const useTheme = () => React.useContext(ThemeContext);
+export const useTheme = () => useContext(ThemeContext);
 
 export const ThemeContextProvider = ({children}) => {
-  const [theme, setTheme] = useState();
+  const [theme, setTheme] = useState('light');
 
   useEffect(() => {
     (async () => {
       const data = await AsyncStorage.getItem(STORAGE_KEY);
 
       if (!data) {
-        setTheme('light');
-        await AsyncStorage.setItem(STORAGE_KEY, 'light');
+        AsyncStorage.setItem(STORAGE_KEY, 'light');
+      }
+
+      if (theme === 'light') {
+        StatusBar.setBarStyle('dark-content');
+        StatusBar.setBackgroundColor(light.background);
       } else {
+        StatusBar.setBarStyle('light-content');
+        StatusBar.setBackgroundColor(dark.background);
+
         setTheme(data);
       }
     })();
-  }, []);
+  }, [theme]);
 
-  const handleTheme = (color) => {
+  const handleTheme = async (color) => {
     if (color === 'light') {
-      console.log('teste');
-      StatusBar.setBarStyle('dark-content');
-      StatusBar.setBackgroundColor(light.background);
-      AsyncStorage.setItem(STORAGE_KEY, 'light');
-
       setTheme('light');
+      await AsyncStorage.setItem(STORAGE_KEY, 'light');
     } else {
-      StatusBar.setBarStyle('light-content');
-      StatusBar.setBackgroundColor(dark.background);
-
-      AsyncStorage.setItem(STORAGE_KEY, 'dark');
       setTheme('dark');
+      await AsyncStorage.setItem(STORAGE_KEY, 'dark');
     }
   };
 

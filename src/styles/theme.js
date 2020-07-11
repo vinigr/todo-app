@@ -8,6 +8,7 @@ export const dark = {
   INPUT: '#4F4F4F',
   INPUT_PLACEHOLDER: '#A0A0A0',
   SAVE: '#00D3BF',
+  tabColorInactive: '#CBCBCB',
 };
 
 export const light = {
@@ -20,4 +21,5 @@ export const light = {
   INPUT: '#ECECEC',
   INPUT_PLACEHOLDER: '#A0A0A0',
   SAVE: '#3B00BF',
+  tabColorInactive: '#666666',
 };

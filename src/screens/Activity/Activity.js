@@ -28,13 +28,12 @@ import {
 } from '../NewActivity/styles';
 
 import {Activities, SubActivities} from '../../database';
+import {useTheme} from '@react-navigation/native';
 
-const Activity = props => {
+const Activity = ({navigation, route}) => {
   let alert = useRef(null);
 
-  const {navigation, screenProps} = props;
-
-  const activity = navigation.getParam('activity');
+  const {activity} = route.params;
 
   const [subActivities, setSubactivities] = useState([]);
   const [subactivitySelected, setSubactivitySelected] = useState();
@@ -49,13 +48,15 @@ const Activity = props => {
 
   const [title, setTitle] = useState();
 
+  const {colors} = useTheme();
+
   useEffect(() => {
     if (activity) {
       const subactivitiesData = SubActivities.data();
 
       setSubactivities(
         subactivitiesData.filter(
-          subactivity =>
+          (subactivity) =>
             subactivity.assignedTo_id === activity.id ||
             subactivity.assignedTo === activity.id,
         ),
@@ -99,7 +100,7 @@ const Activity = props => {
 
     setSubactivities(
       subactivitiesSave.filter(
-        subactivity => subactivity.id !== subactivitySelected,
+        (subactivity) => subactivity.id !== subactivitySelected,
       ),
     );
   };
@@ -126,7 +127,7 @@ const Activity = props => {
     setEditTitle(false);
   };
 
-  const updateDateActivity = value => {
+  const updateDateActivity = (value) => {
     hideDatePicker();
 
     Activities.update(activity.id, {
@@ -136,7 +137,7 @@ const Activity = props => {
     setDate(value);
   };
 
-  const openAlert = id => {
+  const openAlert = (id) => {
     alert.open();
     setSubactivitySelected(id);
   };
@@ -147,16 +148,12 @@ const Activity = props => {
         <ViewInput>
           <InputEdit
             value={textTitle}
-            onChangeText={text => setTextTitle(text)}
+            onChangeText={(text) => setTextTitle(text)}
             placeholder="Título"
-            placeholderTextColor={screenProps.theme.TEXT_COLOR}
+            placeholderTextColor={colors.TEXT_COLOR}
           />
           <ButtonInput onPress={updateTitleActivity}>
-            <Icon
-              name="check"
-              color={screenProps.theme.PRIMARY_COLOR}
-              size={30}
-            />
+            <Icon name="check" color={colors.background} size={30} />
           </ButtonInput>
         </ViewInput>
       ) : (
@@ -195,7 +192,7 @@ const Activity = props => {
                   }>
                   <Icon
                     name="checkbox-blank-circle-outline"
-                    color={screenProps.theme.TEXT_COLOR}
+                    color={colors.TEXT_COLOR}
                     size={30}
                   />
                 </TouchableOpacity>
@@ -210,13 +207,13 @@ const Activity = props => {
       {subactivityNew && (
         <SubAtividade>
           <ButtonDelete onPress={() => setSubactivityNew(false)}>
-            <Icon name="close" color={screenProps.theme.TEXT_COLOR} size={30} />
+            <Icon name="close" color={colors.TEXT_COLOR} size={30} />
           </ButtonDelete>
           <Input
             value={title}
-            onChangeText={text => setTitle(text)}
+            onChangeText={(text) => setTitle(text)}
             placeholder="Título"
-            placeholderTextColor={screenProps.theme.TEXT_COLOR}
+            placeholderTextColor={colors.TEXT_COLOR}
           />
           <ButtonSalvar onPress={saveSubActivity}>
             <TextSalvar>Salvar</TextSalvar>
@@ -227,7 +224,7 @@ const Activity = props => {
         <TextAddSub>Adicionar subatividade</TextAddSub>
       </ButtonAddSub>
       <AlertPro
-        ref={ref => {
+        ref={(ref) => {
           alert = ref;
         }}
         title={'Apagar atividade?'}
@@ -238,10 +235,10 @@ const Activity = props => {
         onConfirm={deleteSubActivity}
         customStyles={{
           container: {
-            backgroundColor: screenProps.theme.SECONDARY,
+            backgroundColor: colors.SECONDARY,
           },
           title: {
-            color: screenProps.theme.TEXT_COLOR,
+            color: colors.TEXT_COLOR,
           },
         }}
       />

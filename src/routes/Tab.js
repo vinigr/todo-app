@@ -17,23 +17,28 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeBackgroundColor: colors.INACTIVE_COLOR,
+        activeBackgroundColor: colors.ACTIVE_COLOR,
         inactiveBackgroundColor: colors.INACTIVE_COLOR,
         keyboardHidesTabBar: true,
-        activeTintColor: '#2F8AD9',
-        inactiveTintColor: '#646464',
+        activeTintColor: colors.TEXT_COLOR,
+        inactiveTintColor: colors.tabColorInactive,
+        showLabel: false,
       }}>
       <Tab.Screen
         name="Home"
         component={StackHome}
-        options={{tabBarIcon: () => <Icon size={30} name="home" />}}
+        options={{
+          tabBarIcon: ({color}) => <Icon color={color} size={30} name="home" />,
+        }}
       />
       <Tab.Screen
         name="Settings"
         component={Settings}
         options={{
           title: 'Configurações',
-          tabBarIcon: () => <Icon size={30} name="settings" />,
+          tabBarIcon: ({color}) => (
+            <Icon color={color} size={30} name="settings" />
+          ),
         }}
       />
     </Tab.Navigator>

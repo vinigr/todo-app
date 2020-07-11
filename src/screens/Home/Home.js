@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {StatusBar, TouchableOpacity, FlatList} from 'react-native';
+import {TouchableOpacity, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import AlertPro from 'react-native-alert-pro';
@@ -39,7 +39,7 @@ const Home = (props) => {
 
   const [dateVisible, setDateVisible] = useState(false);
 
-  const {colors, dark} = useTheme();
+  const {colors} = useTheme();
 
   useEffect(() => {
     fetchData();
@@ -111,10 +111,6 @@ const Home = (props) => {
     setActivitySelected(id);
   };
 
-  const {screenProps} = props;
-
-  const colorStatus = dark ? 'dark-content' : 'light-content';
-
   return (
     <Container>
       <GestureRecognizer
@@ -161,7 +157,7 @@ const Home = (props) => {
                       onPress={() => handleCheckActivity(item.id, index, true)}>
                       <Icon
                         name="checkbox-blank-circle-outline"
-                        color={screenProps.theme.TEXT_COLOR}
+                        color={colors.TEXT_COLOR}
                         size={30}
                       />
                     </TouchableOpacity>

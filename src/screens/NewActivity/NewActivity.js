@@ -139,7 +139,7 @@ const NewActivity = (props) => {
       </ButtonHorarioBoolean>
       <ButtonDate onPress={() => setDateVisible(true)}>
         <TextDate>
-          {hourActive ? format(date, 'dd/M/y  H:mm') : format(date, 'dd/M/y')}
+          {hourActive ? format(date, 'dd/MM/y  H:mm') : format(date, 'dd/MM/y')}
         </TextDate>
       </ButtonDate>
       <DateTimePickerModal
